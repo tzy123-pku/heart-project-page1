@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>心脏病预测（Heart Disease Prediction）项目展示</title>
+  <style>
+    :root{
+      --bg:#0b1220; --card:#111a2e; --text:#e8eefc; --muted:#aab6d6;
+      --accent:#7aa2ff; --border: rgba(255,255,255,.08);
+    }
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+      Roboto, "Helvetica Neue", Arial, "Noto Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(122,162,255,.18), transparent),
+                  radial-gradient(1000px 500px at 90% 10%, rgba(80,200,160,.12), transparent),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.65;
+    }
+    a{color:var(--accent); text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .wrap{max-width: 980px; margin: 0 auto; padding: 28px 18px 60px;}
+    .hero{
+      border:1px solid var(--border); background: rgba(17,26,46,.78);
+      border-radius: 18px; padding: 22px 18px; box-shadow: 0 12px 30px rgba(0,0,0,.28);
+    }
+    .hero h1{margin:0 0 6px; font-size: 28px;}
+    .meta{color:var(--muted); font-size: 14px;}
+    .grid{display:grid; gap:14px; grid-template-columns: repeat(12, 1fr); margin-top:14px;}
+    .card{
+      grid-column: span 12;
+      border:1px solid var(--border); background: rgba(17,26,46,.72);
+      border-radius: 16px; padding: 16px 16px;
+    }
+    @media (min-width: 860px){
+      .card.half{grid-column: span 6;}
+    }
+    h2{margin:0 0 8px; font-size:18px;}
+    ul{margin:8px 0 0 18px;}
+    .badge{
+      display:inline-block; padding:4px 10px; border-radius:999px;
+      border:1px solid var(--border); color:var(--muted); font-size: 12px;
+      margin-right: 8px;
+    }
+    .btns{margin-top:12px; display:flex; flex-wrap:wrap; gap:10px;}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius: 12px;
+      border:1px solid var(--border);
+      background: rgba(122,162,255,.12);
+      color:var(--text);
+    }
+    .btn.secondary{background: rgba(255,255,255,.06);}
+    .imgbox{margin-top: 10px;}
+    figure{margin: 10px 0 0;}
+    img{
+      width:100%; height:auto; border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+    }
+    figcaption{color:var(--muted); font-size:13px; margin-top:6px;}
+    .footer{margin-top:18px; color:var(--muted); font-size: 13px;}
+    .kpi{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+    .kpi .pill{
+      padding:8px 10px; border-radius: 12px;
+      border:1px solid var(--border); background: rgba(255,255,255,.05);
+      font-size: 14px;
+    }
+    code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius: 8px;}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>心脏病预测（Heart Disease Prediction）</h1>
+      <div class="meta">
+        <span class="badge">静态展示页</span>
+        <span class="badge">Logistic Regression</span>
+        <span class="badge">统计检验 + 可视化</span>
+      </div>
+
+      <div class="btns">
+        <a class="btn" href="report.pdf" target="_blank" rel="noopener">📄 打开报告 PDF</a>
+        <a class="btn secondary" href="report.pdf" download>⬇️ 下载报告 PDF</a>
+      </div>
+
+      <div class="kpi">
+        <!-- 你把这里的数值改成你自己的最终结果即可 -->
+        <div class="pill">ROC-AUC：<b>0.872</b></div>
+        <div class="pill">Accuracy：<b>0.84</b></div>
+        <div class="pill">Healthy F1：<b>0.85</b></div>
+        <div class="pill">Sick F1：<b>0.81</b></div>
+      </div>
+
+      <div class="footer">
+        本页面用于“前端开发与部署（10分）”展示：项目简介、方法流程、关键结果、图表与 PDF 下载。
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card half">
+        <h2>1. 数据与任务</h2>
+        <ul>
+          <li>数据文件：<code>work.xls</code></li>
+          <li>标签（y）：结果列（Healthy=0，Sick=1）</li>
+          <li>特征（X）：年龄、性别、胸痛类型、静息血压、血清胆固醇、空腹血糖、心电图、最大心率、运动引起绞痛、峰值、斜度、缺损等</li>
+        </ul>
+      </div>
+
+      <div class="card half">
+        <h2>2. 预处理与建模</h2>
+        <ul>
+          <li>数值变量：中位数填补 + 标准化（StandardScaler）</li>
+          <li>分类变量：众数填补 + One-Hot 编码（handle_unknown=ignore）</li>
+          <li>模型：Logistic Regression（Pipeline + ColumnTransformer）</li>
+          <li>划分：训练/测试（stratify=y）</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>3. 统计分析（显著性检验）</h2>
+        <ul>
+          <li>数值变量：Mann–Whitney U</li>
+          <li>分类变量：卡方检验（必要时 Fisher）</li>
+          <li>结论写法示例：与 Healthy 组相比，Sick 组在最大心率、峰值、年龄等变量上差异显著（p&lt;0.05）；空腹血糖差异不显著（p≥0.05）。</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>4. 模型评估与可视化</h2>
+
+        <figure class="imgbox">
+          <img src="fig_confusion.png" alt="Confusion Matrix" />
+          <figcaption>图 1：混淆矩阵（Confusion Matrix）</figcaption>
+        </figure>
+
+        <figure class="imgbox">
+          <img src="fig_roc.png" alt="ROC Curve" />
+          <figcaption>图 2：ROC 曲线（ROC Curve）</figcaption>
+        </figure>
+
+        <figure class="imgbox">
+          <img src="fig_pr.png" alt="Precision-Recall Curve" />
+          <figcaption>图 3：PR 曲线（Precision-Recall Curve）</figcaption>
+        </figure>
+      </div>
+
+      <div class="card">
+        <h2>5. 复现说明</h2>
+        <ul>
+          <li>环境：Python + pandas + scikit-learn + matplotlib</li>
+          <li>核心流程：读取数据 → 清洗/编码 → 统计检验 → 建模 → 输出图表与 PDF</li>
+          <li>更多细节请见：<a href="report.pdf" target="_blank" rel="noopener">report.pdf</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      © 项目展示页（GitHub Pages 部署）
+    </div>
+  </div>
+</body>
+</html>
